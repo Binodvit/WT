@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tree Search and Sort</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body class="p-4">
+    <h3 class="text-center mb-4">Tree traversal and Search</h3>
+    <div class="mb-3">
+      <input
+        type="number"
+        id="numberInput"
+        class="form-control mb-2"
+        placeholder="Enter an Integer"
+      />
+      <button class="btn btn-primary" onclick="insert()">Add</button>
+      <button class="btn btn-primary" onclick="sort()">Sort</button>
+      <button class="btn btn-primary" onclick="search()">Search</button>
+    </div>
+    <div>
+      <h5>Inserted Elements (in order):</h5>
+      <p id="insertionOrder" class="border p-2"></p>
+
+      <h5>Sorted Output:</h5>
+      <p id="output" class="border p-2"></p>
+
+      <h5>Search Result:</h5>
+      <p id="searchResult" class="border p-2"></p>
+    </div>
+    <script>
+      class Node {
+        constructor(data) {
+          this.data = data;
+          this.left = null;
+          this.right = null;
+        }
+      }
+      class BST {
+        constructor() {
+          this.root = null;
+        }
+        insert(data) {
+          this.root = this._insertRec(this.root, data);
+        }
+        _insertRec(node, data) {
+          if (node == null) return new Node(data);
+          if (data < node.data) node.left = this._insertRec(node.left, data);
+          else node.right = this._insertRec(node.right, data);
+          return node;
+        }
+        inorder() {
+          let result = [];
+          this._inorderRec(this.root, result);
+          return result;
+        }
+        _inorderRec(node, result) {
+          if (node) {
+            this._inorderRec(node.left, result);
+            result.push(node.data);
+            this._inorderRec(node.right, result);
+          }
+        }
+        search(key) {
+          return this._searchRec(this.root, key);
+        }
+
+        _searchRec(node, key) {
+          if (!node) return false;
+          if (node.data == key) return true;
+          if (key < node.data) return this._searchRec(node.left, key);
+          else return this._searchRec(node.right, key);
+        }
+      }
+      const bst = new BST();
+      const insertedElements = [];
+
+      function insert() {
+        const val = parseInt(document.getElementById("numberInput").value);
+        if (!isNaN(val)) {
+          bst.insert(val);
+          insertedElements.push(val);
+          document.getElementById("numberInput").value = "";
+          updateInsertionOrderDisplay();
+        }
+      }
+
+      function updateInsertionOrderDisplay() {
+        document.getElementById("insertionOrder").textContent =
+          insertedElements.join(", ");
+      }
+
+      function sort() {
+        const sorted = bst.inorder();
+        document.getElementById("output").textContent = sorted.join(", ");
+      }
+      function search() {
+        key = parseInt(document.getElementById("numberInput").value);
+        if (!isNaN(key)) {
+          const found = bst.search(key);
+          document.getElementById("searchResult").textContent = found
+            ? "✅ Found"
+            : "❌ Not Found";
+        }
+      }
+    </script>
+  </body>
+</html>

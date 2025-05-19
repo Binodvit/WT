@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graph Traversal</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body class="p-4">
+    <h3 class="text-center mb-4">BFS and DFS for Integer Graph</h3>
+
+    <div class="mb-3">
+      <input
+        type="number"
+        id="from"
+        class="form-control mb-2"
+        placeholder="From node"
+      />
+      <input
+        type="number"
+        id="to"
+        class="form-control mb-2"
+        placeholder="To node"
+      />
+      <button class="btn btn-primary" onclick="addEdge()">Add Edge</button>
+    </div>
+
+    <div class="mb-3">
+      <input
+        type="number"
+        id="searchVal"
+        class="form-control mb-2"
+        placeholder="Value to Search"
+      />
+      <button class="btn btn-success" onclick="bfs()">BFS Search</button>
+      <button class="btn btn-warning" onclick="dfs()">DFS Search</button>
+    </div>
+
+    <div>
+      <h5>Graph (Adjacency List):</h5>
+      <pre id="graphDisplay" class="border p-2"></pre>
+
+      <h5>Traversal Order:</h5>
+      <p id="traversalOrder" class="border p-2"></p>
+
+      <h5>Search Result:</h5>
+      <p id="searchResult" class="border p-2"></p>
+    </div>
+
+    <script>
+      const graph = {};
+
+      function addEdge() {
+        const u = parseInt(document.getElementById("from").value);
+        const v = parseInt(document.getElementById("to").value);
+        if (!isNaN(u) && !isNaN(v)) {
+          if (!graph[u]) graph[u] = [];
+          if (!graph[v]) graph[v] = [];
+          graph[u].push(v);
+          graph[v].push(u); // for undirected graph
+          displayGraph();
+          document.getElementById("from").value = "";
+          document.getElementById("to").value = "";
+        }
+      }
+
+      function displayGraph() {
+        let str = "";
+        for (let node in graph) {
+          str += `${node}: ${graph[node].join(", ")}\n`;
+        }
+        document.getElementById("graphDisplay").textContent = str;
+      }
+
+      function bfs() {
+        const startNode = Object.keys(graph)[0];
+        const target = parseInt(document.getElementById("searchVal").value);
+        let visited = new Set();
+        let queue = [parseInt(startNode)];
+        let order = [];
+
+        while (queue.length > 0) {
+          let curr = queue.shift();
+          if (!visited.has(curr)) {
+            visited.add(curr);
+            order.push(curr);
+            if (curr === target) {
+              document.getElementById("searchResult").textContent =
+                "✅ Found via BFS";
+              document.getElementById("traversalOrder").textContent =
+                order.join(", ");
+              return;
+            }
+            for (let neighbor of graph[curr]) {
+              if (!visited.has(neighbor)) {
+                queue.push(neighbor);
+              }
+            }
+          }
+        }
+        document.getElementById("searchResult").textContent =
+          "❌ Not Found via BFS";
+        document.getElementById("traversalOrder").textContent =
+          order.join(", ");
+      }
+
+      function dfs() {
+        const startNode = Object.keys(graph)[0];
+        const target = parseInt(document.getElementById("searchVal").value);
+        let visited = new Set();
+        let order = [];
+
+        function dfsUtil(node) {
+          visited.add(node);
+          order.push(node);
+          if (node === target) return true;
+          for (let neighbor of graph[node]) {
+            if (!visited.has(neighbor)) {
+              if (dfsUtil(neighbor)) return true;
+            }
+          }
+          return false;
+        }
+
+        const found = dfsUtil(parseInt(startNode));
+        document.getElementById("searchResult").textContent = found
+          ? "✅ Found via DFS"
+          : "❌ Not Found via DFS";
+        document.getElementById("traversalOrder").textContent =
+          order.join(", ");
+      }
+    </script>
+  </body>
+</html>
