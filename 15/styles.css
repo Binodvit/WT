@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    background-color: #1a4731;
+    min-height: 384px;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+header .text-center {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+}
+
+header h2 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    header h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Product image styling */
+.product-image {
+    width: 200px; /* Fixed width for consistency */
+    height: 150px; /* Adjusted height to fit images */
+    object-fit: contain; /* Ensure full image is visible */
+    display: block;
+    margin: 0 auto 1rem; /* Center image with bottom margin */
+}
+
+/* Fallback for broken images */
+.product-image[onerror] {
+    background-color: #f0f0f0;
+    width: 200px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    margin: 0 auto 1rem;
+}
+
+/* Product container */
+.grid .bg-white {
+    overflow: visible;
+    padding: 1.5rem;
+    min-width: 250px; /* Ensure container doesn't shrink too much */
+    text-align: center; /* Center-align text and images */
+}
+
+/* Ensure grid layout shows 3 columns on medium screens and above */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+button:hover {
+    transition: background-color 0.3s ease;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,26 @@
+CREATE DATABASE grocery_shop;
+
+  USE grocery_shop;
+
+  CREATE TABLE Consumer (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(50) NOT NULL UNIQUE,
+      password VARCHAR(255) NOT NULL,
+      email VARCHAR(100) NOT NULL UNIQUE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE Items (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      price DECIMAL(10, 2) NOT NULL,
+      description TEXT,
+      image VARCHAR(255),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+
+  -- Insert sample items
+  INSERT INTO Items (name, price, description, image) VALUES
+  ('Apples', 2.99, 'Fresh red apples, 1kg', 'images/apples.jpg'),
+  ('Milk', 1.49, 'Whole milk, 1L', 'images/milk.jpg'),
+  ('Bread', 0.99, 'Whole wheat bread, 500g', 'images/bread.jpg');
