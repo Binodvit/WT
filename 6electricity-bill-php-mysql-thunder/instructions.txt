@@ -1,0 +1,54 @@
+SQl TAble
+
+New - db - electricity
+
+paste this in sql - 
+CREATE TABLE Consumer (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100),
+  address VARCHAR(255)
+);
+
+CREATE TABLE Billing (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  consumer_id INT,
+  units INT,
+  amount DECIMAL(10,2),
+  billing_date DATE,
+  FOREIGN KEY (consumer_id) REFERENCES Consumer(id)
+);
+
+
+
+
+To run : http://localhost/electricity-bill/index.html
+
+
+
+STeps for thunder : 
+🔬 6. Test API with Thunder Client
+Open Thunder Client in VS Code.
+
+New Request → POST to:
+
+http://localhost/electricity-bill/calculate_bill.php
+Body → JSON:
+
+
+{
+  "name": "Alice",
+  "email": "alice@gmail.com",
+  "address": "Sector 9, City",
+  "units": 275
+}
+
+Click Send – you’ll get JSON response like:
+
+{
+  "status": "success",
+  "consumer": "Alice",
+  "units": 275,
+  "amount": 1337.5,
+  "billing_date": "2025-05-19"
+}
