@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIT Projects Repository</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <style>
+    .hero-section {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/400');
+      background-size: cover;
+      color: white;
+      padding: 100px 0;
+    }
+    .project-card {
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .nav-pills .nav-link.active {
+      background-color: #4a2c8a;
+    }
+    .nav-pills .nav-link {
+      color: #4a2c8a;
+    }
+    .btn-primary {
+      background-color: #4a2c8a;
+      border-color: #4a2c8a;
+    }
+    .btn-primary:hover {
+      background-color: #3a1c7a;
+      border-color: #3a1c7a;
+    }
+    .btn-outline-primary {
+      color: #4a2c8a;
+      border-color: #4a2c8a;
+    }
+    .btn-outline-primary:hover {
+      background-color: #4a2c8a;
+      border-color: #4a2c8a;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">VIT Projects</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal">Admin</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container">
+      <h1>VIT Projects Repository</h1>
+      <p class="lead">Showcasing the innovative Course Projects and EDI Projects from VIT students</p>
+      <a href="#projects" class="btn btn-primary btn-lg mt-3">Explore Projects</a>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Project Showcase</h2>
+      
+      <!-- Tabs/Pills Navigation -->
+      <ul class="nav nav-pills mb-4 justify-content-center" id="projectTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button">All Projects</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="course-tab" data-bs-toggle="pill" data-bs-target="#course" type="button">Course Projects</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="edi-tab" data-bs-toggle="pill" data-bs-target="#edi" type="button">EDI Projects</button>
+        </li>
+      </ul>
+      
+      <!-- Search and Filter -->
+      <div class="row mb-4">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <input type="text" id="searchProjects" class="form-control" placeholder="Search projects...">
+        </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+          <select id="domainFilter" class="form-select">
+            <option value="">All Domains</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Mobile App">Mobile App</option>
+            <option value="IoT">IoT</option>
+            <option value="AI/ML">AI/ML</option>
+            <option value="Blockchain">Blockchain</option>
+            <option value="Robotics">Robotics</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select id="yearFilter" class="form-select">
+            <option value="">All Years</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Tab Content -->
+      <div class="tab-content" id="projectTabsContent">
+        <!-- All Projects Tab -->
+        <div class="tab-pane fade show active" id="all" role="tabpanel">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="allProjects">
+            <!-- Projects will be loaded here via JavaScript -->
+          </div>
+          <div class="text-center mt-4" id="noProjectsAll" style="display: none;">
+            <p class="text-muted">No projects found matching your criteria.</p>
+          </div>
+        </div>
+        
+        <!-- Course Projects Tab -->
+        <div class="tab-pane fade" id="course" role="tabpanel">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="courseProjects">
+            <!-- Course projects will be loaded here via JavaScript -->
+          </div>
+          <div class="text-center mt-4" id="noProjectsCourse" style="display: none;">
+            <p class="text-muted">No course projects found matching your criteria.</p>
+          </div>
+        </div>
+        
+        <!-- EDI Projects Tab -->
+        <div class="tab-pane fade" id="edi" role="tabpanel">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="ediProjects">
+            <!-- EDI projects will be loaded here via JavaScript -->
+          </div>
+          <div class="text-center mt-4" id="noProjectsEdi" style="display: none;">
+            <p class="text-muted">No EDI projects found matching your criteria.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h2>About VIT Projects</h2>
+          <p>The VIT Projects Repository is a platform that showcases innovative projects developed by students at Vellore Institute of Technology. This platform aims to highlight both Course Projects and EDI (Entrepreneurship Development and Innovation) Projects.</p>
+          <h3>Course Projects</h3>
+          <p>Course projects are developed as part of academic curriculum requirements. These projects demonstrate students' understanding of theoretical concepts and their practical application in various domains.</p>
+          <h3>EDI Projects</h3>
+          <p>EDI Projects are developed under the Entrepreneurship Development and Innovation cell of VIT. These projects focus on solving real-world problems and have entrepreneurial potential with innovative approaches.</p>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h3>Project Statistics</h3>
+              <div class="d-flex justify-content-around text-center mt-4">
+                <div>
+                  <h4 id="totalProjects">0</h4>
+                  <p>Total Projects</p>
+                </div>
+                <div>
+                  <h4 id="courseProjectCount">0</h4>
+                  <p>Course Projects</p>
+                </div>
+                <div>
+                  <h4 id="ediProjectCount">0</h4>
+                  <p>EDI Projects</p>
+                </div>
+              </div>
+              <hr>
+              <h5 class="mt-4">Domain Distribution</h5>
+              <div id="domainStats" class="mt-3">
+                <!-- Domain statistics will be populated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4">
+    <div class="container text-center">
+      <p>© 2025 VIT Projects Repository. All rights reserved.</p>
+      <p>Vellore Institute of Technology</p>
+    </div>
+  </footer>
+
+  <!-- Admin Modal -->
+  <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Project Administration</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#add-content" type="button">Add Project</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="manage-tab" data-bs-toggle="tab" data-bs-target="#manage-content" type="button">Manage Projects</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data-content" type="button">Data Management</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="adminTabsContent">
+            <!-- Add Project Tab -->
+            <div class="tab-pane fade show active" id="add-content" role="tabpanel">
+              <form id="addProjectForm">
+                <div class="mb-3">
+                  <label for="projectTitle" class="form-label">Project Title</label>
+                  <input type="text" class="form-control" id="projectTitle" required>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="projectType" class="form-label">Project Type</label>
+                    <select class="form-select" id="projectType" required>
+                      <option value="">Select Type</option>
+                      <option value="Course">Course Project</option>
+                      <option value="EDI">EDI Project</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="projectDomain" class="form-label">Domain</label>
+                    <select class="form-select" id="projectDomain" required>
+                      <option value="">Select Domain</option>
+                      <option value="Web Development">Web Development</option>
+                      <option value="Mobile App">Mobile App</option>
+                      <option value="IoT">IoT</option>
+                      <option value="AI/ML">AI/ML</option>
+                      <option value="Blockchain">Blockchain</option>
+                      <option value="Robotics">Robotics</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="projectYear" class="form-label">Year</label>
+                    <select class="form-select" id="projectYear" required>
+                      <option value="">Select Year</option>
+                      <option value="2025">2025</option>
+                      <option value="2024">2024</option>
+                      <option value="2023">2023</option>
+                      <option value="2022">2022</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="projectMembers" class="form-label">Team Members</label>
+                    <input type="text" class="form-control" id="projectMembers" placeholder="Member1, Member2, ...">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="projectDescription" class="form-label">Description</label>
+                  <textarea class="form-control" id="projectDescription" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="projectTechnologies" class="form-label">Technologies Used</label>
+                  <input type="text" class="form-control" id="projectTechnologies" placeholder="HTML, CSS, JavaScript, ...">
+                </div>
+                <div class="mb-3">
+                  <label for="projectLink" class="form-label">Project Link (Optional)</label>
+                  <input type="url" class="form-control" id="projectLink" placeholder="https://...">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Project</button>
+              </form>
+            </div>
+            
+            <!-- Manage Projects Tab -->
+            <div class="tab-pane fade" id="manage-content" role="tabpanel">
+              <div class="mb-3">
+                <input type="text" id="manageSearchInput" class="form-control" placeholder="Search projects to manage...">
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Type</th>
+                      <th>Domain</th>
+                      <th>Year</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="manageProjectsList">
+                    <!-- Projects list for management will be loaded dynamically -->
+                  </tbody>
+                </table>
+              </div>
+              <div id="noManageProjects" class="text-center my-4" style="display: none;">
+                <p class="text-muted">No projects found.</p>
+              </div>
+            </div>
+            
+            <!-- Data Management Tab -->
+            <div class="tab-pane fade" id="data-content" role="tabpanel">
+              <div class="d-flex justify-content-between mb-4">
+                <button id="exportData" class="btn btn-outline-primary">Export All Data</button>
+                <button id="importDataBtn" class="btn btn-outline-secondary">Import Data</button>
+                <button id="resetData" class="btn btn-outline-danger">Reset Database</button>
+              </div>
+              <input type="file" id="importDataFile" style="display: none;" accept=".json">
+              <div class="alert alert-info">
+                <h5>Database Information</h5>
+                <p>This application uses your browser's localStorage to maintain the project database. The data is stored locally on your device.</p>
+                <ul>
+                  <li>Export: Download a backup of all your project data</li>
+                  <li>Import: Load previously exported project data</li>
+                  <li>Reset: Clear all project data (cannot be undone)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Project Modal -->
+  <div class="modal fade" id="editProjectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Project</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editProjectForm">
+            <input type="hidden" id="editProjectId">
+            <div class="mb-3">
+              <label for="editProjectTitle" class="form-label">Project Title</label>
+              <input type="text" class="form-control" id="editProjectTitle" required>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="editProjectType" class="form-label">Project Type</label>
+                <select class="form-select" id="editProjectType" required>
+                  <option value="">Select Type</option>
+                  <option value="Course">Course Project</option>
+                  <option value="EDI">EDI Project</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="editProjectDomain" class="form-label">Domain</label>
+                <select class="form-select" id="editProjectDomain" required>
+                  <option value="">Select Domain</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Mobile App">Mobile App</option>
+                  <option value="IoT">IoT</option>
+                  <option value="AI/ML">AI/ML</option>
+                  <option value="Blockchain">Blockchain</option>
+                  <option value="Robotics">Robotics</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="editProjectYear" class="form-label">Year</label>
+                <select class="form-select" id="editProjectYear" required>
+                  <option value="">Select Year</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="editProjectMembers" class="form-label">Team Members</label>
+                <input type="text" class="form-control" id="editProjectMembers">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="editProjectDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="editProjectDescription" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="editProjectTechnologies" class="form-label">Technologies Used</label>
+              <input type="text" class="form-control" id="editProjectTechnologies">
+            </div>
+            <div class="mb-3">
+              <label for="editProjectLink" class="form-label">Project Link (Optional)</label>
+              <input type="url" class="form-control" id="editProjectLink">
+            </div>
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-primary">Update Project</button>
+              <button type="button" id="deleteProjectBtn" class="btn btn-danger">Delete Project</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Detail Modal -->
+  <div class="modal fade" id="projectDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detailProjectTitle">Project Title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <h6 class="text-muted">Project Type</h6>
+              <p id="detailProjectType">Course Project</p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="text-muted">Domain</h6>
+              <p id="detailProjectDomain">Web Development</p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <h6 class="text-muted">Year</h6>
+              <p id="detailProjectYear">2023</p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="text-muted">Team Members</h6>
+              <p id="detailProjectMembers">Member 1, Member 2, Member 3</p>
+            </div>
+          </div>
+          <div class="mb-3">
+            <h6 class="text-muted">Description</h6>
+            <p id="detailProjectDescription">Project description will be displayed here.</p>
+          </div>
+          <div class="mb-3">
+            <h6 class="text-muted">Technologies Used</h6>
+            <p id="detailProjectTechnologies">HTML, CSS, JavaScript</p>
+          </div>
+          <div class="mb-3" id="detailProjectLinkContainer">
+            <h6 class="text-muted">Project Link</h6>
+            <a href="#" id="detailProjectLink" target="_blank">View Project</a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Database management
+    const DB_KEY = 'vit_projects_db';
+    
+    // Initialize database if it doesn't exist
+    function initDatabase() {
+      if (!localStorage.getItem(DB_KEY)) {
+        const initialData = {
+          projects: getSampleProjects()
+        };
+        localStorage.setItem(DB_KEY, JSON.stringify(initialData));
+      }
+      
+      updateStats();
+      renderProjects();
+    }
+    
+    // Get all projects from database
+    function getProjects() {
+      const data = JSON.parse(localStorage.getItem(DB_KEY) || '{"projects":[]}');
+      return data.projects;
+    }
+    
+    // Save projects to database
+    function saveProjects(projects) {
+      const data = { projects };
+      localStorage.setItem(DB_KEY, JSON.stringify(data));
+      updateStats();
+      renderProjects();
+    }
+    
+    // Add a new project
+    function addProject(project) {
+      const projects = getProjects();
+      project.id = Date.now().toString(); // Generate unique ID
+      projects.push(project);
+      saveProjects(projects);
+      
+      // Show success message
+      alert("Project added successfully!");
+      
+      // Reset form
+      $('#addProjectForm')[0].reset();
+    }
+    
+    // Update an existing project
+    function updateProject(updatedProject) {
+      const projects = getProjects();
+      const index = projects.findIndex(p => p.id === updatedProject.id);
+      if (index !== -1) {
+        projects[index] = updatedProject;
+        saveProjects(projects);
+        return true;
+      }
+      return false;
+    }
+    
+    // Delete a project
+    function deleteProject(id) {
+      const projects = getProjects();
+      const filteredProjects = projects.filter(p => p.id !== id);
+      if (filteredProjects.length < projects.length) {
+        saveProjects(filteredProjects);
+        return true;
+      }
+      return false;
+    }
+    
+    // Filter projects based on search, domain, year and type
+    function filterProjects(projects, type, searchTerm, domain, year) {
+      return projects.filter(project => {
+        // Filter by type if specified
+        if (type && type !== 'All' && project.type !== type) {
+          return false;
+        }
+        
+        // Filter by search term
+        if (searchTerm && !project.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            !project.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+          return false;
+        }
+        
+        // Filter by domain
+        if (domain && project.domain !== domain) {
+          return false;
+        }
+        
+        // Filter by year
+        if (year && project.year !== year) {
+          return false;
+        }
+        
+        return true;
+      });
+    }
+    
+    // Render projects in their respective tabs
+    function renderProjects() {
+      const projects = getProjects();
+      const searchTerm = $('#searchProjects').val();
+      const domain = $('#domainFilter').val();
+      const year = $('#yearFilter').val();
+      
+      // Filter projects
+      const allFilteredProjects = filterProjects(projects, null, searchTerm, domain, year);
+      const courseFilteredProjects = filterProjects(projects, 'Course', searchTerm, domain, year);
+      const ediFilteredProjects = filterProjects(projects, 'EDI', searchTerm, domain, year);
+      
+      // Render all projects tab
+      renderProjectList('allProjects', allFilteredProjects);
+      $('#noProjectsAll').toggle(allFilteredProjects.length === 0);
+      
+      // Render course projects tab
+      renderProjectList('courseProjects', courseFilteredProjects);
+      $('#noProjectsCourse').toggle(courseFilteredProjects.length === 0);
+      
+      // Render EDI projects tab
+      renderProjectList('ediProjects', ediFilteredProjects);
+      $('#noProjectsEdi').toggle(ediFilteredProjects.length === 0);
+      
+      // Render projects for management
+      renderManageProjectsList(projects);
+    }
+    
+    // Render project list in a specific container
+    function renderProjectList(containerId, projects) {
+      const container = $(#${containerId});
+      container.empty();
+      
+      projects.forEach(project => {
+        const limitedDescription = project.description.length > 120 ? 
+          project.description.substring(0, 120) + '...' : project.description;
+        
+        const badge = project.type === 'Course' ? 
+          '<span class="badge bg-primary">Course Project</span>' : 
+          '<span class="badge bg-success">EDI Project</span>';
+          
+        const card = `
+          <div class="col">
+            <div class="card project-card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h5 class="card-title">${project.title}</h5>
+                  ${badge}
+                </div>
+                <h6 class="text-muted">${project.domain} | ${project.year}</h6>
+                <p class="card-text">${limitedDescription}</p>
+                <button class="btn btn-outline-primary btn-sm view-project" data-id="${project.id}">View Details</button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        container.append(card);
+      });
+      
+      // Attach event listeners to view buttons
+      $('.view-project').on('click', function() {
+        const projectId = $(this).data('id');
+        openProjectDetail(projectId);
+      });
+    }
+    
+    // Render projects list for management
+    function renderManageProjectsList(projects) {
+      const container = $('#manageProjectsList');
+      container.empty();
+      
+      const searchTerm = $('#manageSearchInput').val().toLowerCase();
+      
+      const filteredProjects = searchTerm ? 
+        projects.filter(p => p.title.toLowerCase().includes(searchTerm)) : projects;
+      
+      $('#noManageProjects').toggle(filteredProjects.length === 0);
+      
+      filteredProjects.forEach(project => {
+        const row = `
+          <tr>
+            <td>${project.title}</td>
+            <td>${project.type}</td>
+            <td>${project.domain}</td>
+            <td>${project.year}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary edit-project" data-id="${project.id}">
+                Edit
+              </button>
+            </td>
+          </tr>
+        `;
+        
+        container.append(row);
+      });
+      
+      // Attach event listeners to edit buttons
+      $('.edit-project').on('click', function() {
+        const projectId = $(this).data('id');
+        openEditProject(projectId);
+      });
+    }
+    
+    // Open project detail modal
+    function openProjectDetail(projectId) {
+      const projects = getProjects();
+      const project = projects.find(p => p.id === projectId);
+      
+      if (project) {
+        $('#detailProjectTitle').text(project.title);
+        $('#detailProjectType').text(project.type + ' Project');
+        $('#detailProjectDomain').text(project.domain);
+        $('#detailProjectYear').text(project.year);
+        $('#detailProjectMembers').text(project.members || 'Not specified');
+        $('#detailProjectDescription').text(project.description);
+        $('#detailProjectTechnologies').text(project.technologies || 'Not specified');
+        
+        if (project.link) {
+          $('#detailProjectLink').attr('href', project.link).text(project.link);
+          $('#detailProjectLinkContainer').show();
+        } else {
+          $('#detailProjectLinkContainer').hide();
+        }
+        
+        $('#projectDetailModal').modal('show');
+      }
+    }
+    
+    // Open edit project modal
+    function openEditProject(projectId) {
+      const projects = getProjects();
+      const project = projects.find(p => p.id === projectId);
+      
+      if (project) {
+        $('#editProjectId').val(project.id);
+        $('#editProjectTitle').val(project.title);
+        $('#editProjectType').val(project.type);
+        $('#editProjectDomain').val(project.domain);
+        $('#editProjectYear').val(project.year);
+        $('#editProjectMembers').val(project.members || '');
+        $('#editProjectDescription').val(project.description);
+        $('#editProjectTechnologies').val(project.technologies || '');
+        $('#editProjectLink').val(project.link || '');
+        
+        $('#editProjectModal').modal('show');
+      }
+    }
+    
+    // Update statistics
+    function updateStats() {
+      const projects = getProjects();
+      const courseProjects = projects.filter(p => p.type === 'Course');
+      const ediProjects = projects.filter(p => p.type === 'EDI');
+      
+      // Update counters
+      $('#totalProjects').text(projects.length);
+      $('#courseProjectCount').text(courseProjects.length);
+      $('#ediProjectCount').text(ediProjects.length);
+      
+      // Update domain statistics
+      const domainStats = {};
+      projects.forEach(project => {
+        if (!domainStats[project.domain]) {
+          domainStats[project.domain] = 0;
+        }
+        domainStats[project.domain]++;
+      });
+      
+      const domainStatsContainer = $('#domainStats');
+      domainStatsContainer.empty();
+      
+      for (const domain in domainStats) {
+        const percentage = (domainStats[domain] / projects.length * 100).toFixed(1);
+        const statsHtml = `
+          <div class="mb-2">
+            <div class="d-flex justify-content-between mb-1">
+              <span>${domain}</span>
+              <span>${domainStats[domain]} (${percentage}%)</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: ${percentage}%" 
+                aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        `;
+        domainStatsContainer.append(statsHtml);
+      }
+    }
+    
+    // Sample projects for initial data
+    function getSampleProjects() {
+      return [
+        {
+          id: '1',
+          title: 'Student Management System',
+          type: 'Course',
+          domain: 'Web Development',
+          year: '2024',
+          members: 'John Doe, Jane Smith',
+          description: 'A web-based student management system that allows administrators to manage student records, attendance, and grades. Built with React, Node.js, and MongoDB.',
+          technologies: 'React, Node.js, Express, MongoDB',
+          link: 'https://github.com/example/student-management'
+        },
+        {
+          id: '2',
+          title: 'Smart Home Automation',
+          type: 'EDI',
+          domain: 'IoT',
+          year: '2023',
+          members: 'Robert Johnson, Emily Davis, Michael Brown',
+          description: 'An IoT-based home automation system that allows users to control lights, appliances, and security systems remotely using a mobile app. Implemented using Raspberry Pi, NodeMCU, and MQTT protocol.',
+          technologies: 'Raspberry Pi, NodeMCU, MQTT, React Native, Firebase',
+          link: 'https://github.com/example/smart-home'
+        },
+        {
+          id: '3',
+          title: 'Sentiment Analysis Tool',
+          type: 'Course',
+          domain: 'AI/ML',
+          year: '2024',
+          members: 'Alex Wilson, Sophia Lee',
+          description: 'A machine learning-based sentiment analysis tool that analyzes text data from social media platforms to determine user sentiment. Uses natural language processing techniques and deep learning models.',
+          technologies: 'Python, TensorFlow, NLTK, Flask, MongoDB',
+          link: ''
+        },
+        {
+          id: '4',
+          title: 'Decentralized Voting System',
+          type: 'EDI',
+          domain: 'Blockchain',
+          year: '2023',
+          members: 'David Miller, Emma Martinez, James Wilson',
+          description: 'A blockchain-based voting system that ensures secure, transparent, and tamper-proof elections. The system uses Ethereum smart contracts and provides voter anonymity.',
+          technologies: 'Solidity, Ethereum, Web3.js, React, Truffle',
+          link: 'https://github.com/example/blockchain-voting'
+        },
+        {
+          id: '5',
+          title: 'Mobile Health Monitoring',
+          type: 'Course',
+          domain: 'Mobile App',
+          year: '2022',
+          members: 'Olivia Johnson, William Taylor',
+          description: 'A mobile application that monitors health metrics such as heart rate, blood pressure, and sleep patterns. It integrates with wearable devices and provides health insights and recommendations.',
+          technologies: 'Flutter, Firebase, Google Fit API, iOS HealthKit',
+          link: 'https://github.com/example/health-monitor'
+        },
+        {
+          id: '6',
+          title: 'Autonomous Delivery Robot',
+          type: 'EDI',
+          domain: 'Robotics',
+          year: '2022',
+          members: 'Daniel Rodriguez, Ava Thompson, Ethan Harris',
+          description: 'An autonomous robot designed for last-mile delivery in university campuses. The robot uses computer vision, path planning algorithms, and obstacle avoidance to navigate between buildings.',
+          technologies: 'ROS, Python, OpenCV, Arduino, TensorFlow Lite',
+          link: ''
+        }
+      ];
+    }
+    
+    // Export data to JSON file
+    function exportData() {
+      const dataStr = localStorage.getItem(DB_KEY);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      
+      const exportFileDefaultName = 'vit_projects_data.json';
+      
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    }
+    
+    // Import data from JSON file
+    function importData(file) {
+      const reader = new FileReader();
+      
+      reader.onload = function(event) {
+        try {
+          const jsonData = JSON.parse(event.target.result);
+          
+          if (jsonData && jsonData.projects) {
+            localStorage.setItem(DB_KEY, JSON.stringify(jsonData));
+            updateStats();
+            renderProjects();
+            alert('Data imported successfully!');
+          } else {
+            alert('Invalid data format.');
+          }
+        } catch (e) {
+          alert('Error importing data: ' + e.message);
+        }
+      };
+      
+      reader.readAsText(file);
+    }
+    
+    // Reset database
+    function resetDB() {
+      if (confirm('Are you sure you want to reset the database? This will delete all projects and cannot be undone.')) {
+        localStorage.removeItem(DB_KEY);
+        initDatabase();
+        alert('Database has been reset.');
+      }
+    }
+    
+    // Document ready
+    $(document).ready(function() {
+      // Initialize database
+      initDatabase();
+      
+      // Filter events
+      $('#searchProjects, #domainFilter, #yearFilter').on('input change', function() {
+        renderProjects();
+      });
+      
+      // Form submission for adding new project
+      $('#addProjectForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const newProject = {
+          title: $('#projectTitle').val(),
+          type: $('#projectType').val(),
+          domain: $('#projectDomain').val(),
+          year: $('#projectYear').val(),
+          members: $('#projectMembers').val(),
+          description: $('#projectDescription').val(),
+          technologies: $('#projectTechnologies').val(),
+          link: $('#projectLink').val()
+        };
+        
+        addProject(newProject);
+      });
+      
+      // Form submission for editing project
+      $('#editProjectForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const updatedProject = {
+          id: $('#editProjectId').val(),
+          title: $('#editProjectTitle').val(),
+          type: $('#editProjectType').val(),
+          domain: $('#editProjectDomain').val(),
+          year: $('#editProjectYear').val(),
+          members: $('#editProjectMembers').val(),
+          description: $('#editProjectDescription').val(),
+          technologies: $('#editProjectTechnologies').val(),
+          link: $('#editProjectLink').val()
+        };
+        
+        if (updateProject(updatedProject)) {
+          $('#editProjectModal').modal('hide');
+          alert('Project updated successfully!');
+        } else {
+          alert('Error updating project.');
+        }
+      });
+      
+      // Delete project
+      $('#deleteProjectBtn').on('click', function() {
+        const projectId = $('#editProjectId').val();
+        
+        if (confirm('Are you sure you want to delete this project? This cannot be undone.')) {
+          if (deleteProject(projectId)) {
+            $('#editProjectModal').modal('hide');
+            alert('Project deleted successfully!');
+          } else {
+            alert('Error deleting project.');
+          }
+        }
+      });
+      
+      // Search in manage projects
+      $('#manageSearchInput').on('input', function() {
+        renderManageProjectsList(getProjects());
+      });
+      
+      // Export data
+      $('#exportData').on('click', function() {
+        exportData();
+      });
+      
+      // Import data button click
+      $('#importDataBtn').on('click', function() {
+        $('#importDataFile').click();
+      });
+      
+      // Import data file selected
+      $('#importDataFile').on('change', function(e) {
+        if (e.target.files.length > 0) {
+          importData(e.target.files[0]);
+        }
+      });
+      
+      // Reset database
+      $('#resetData').on('click', function() {
+        resetDB();
+      });
+    });
+  </script>
+</body>
+</html>
