@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIT Semester Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e6f3ff;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #219653;
+        }
+        .form, .results {
+            margin-bottom: 20px;
+        }
+        .form input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            width: 120px;
+            background-color: #f1f8ff;
+        }
+        h3, h4 {
+            color: #e74c3c;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #3498db;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        td button {
+            background-color: #e74c3c;
+        }
+        td button:hover {
+            background-color: #c0392b;
+        }
+        @media (max-width: 600px) {
+            .form input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            table, th, td {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const [students, setStudents] = useState([]);
+            const [marks, setMarks] = useState({});
+            const [showForm, setShowForm] = useState(false);
+            const [formData, setFormData] = useState({
+                prn: '', name: '', branch: '',
+                mse: { subject1: 0, subject2: 0, subject3: 0, subject4: 0 },
+                ese: { subject1: 0, subject2: 0, subject3: 0, subject4: 0 }
+            });
+
+            useEffect(() => {
+                fetch('http://localhost:3000/api/students')
+                    .then(res => res.json())
+                    .then(data => setStudents(data));
+            }, []);
+
+            const fetchMarks = (prn) => {
+                fetch(`http://localhost:3000/api/marks/${prn}`)
+                    .then(res => res.json())
+                    .then(data => setMarks(prev => ({ ...prev, [prn]: data })));
+            };
+
+            const handleInputChange = (e, type, subject) => {
+                const { name, value } = e.target;
+                if (type) {
+                    setFormData({
+                        ...formData,
+                        [type]: { ...formData[type], [subject]: parseFloat(value) || 0 }
+                    });
+                } else {
+                    setFormData({ ...formData, [name]: value });
+                }
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                fetch('http://localhost:3000/api/students', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            setStudents([...students, { prn: formData.prn, name: formData.name, branch: formData.branch }]);
+                            setShowForm(false);
+                            setFormData({
+                                prn: '', name: '', branch: '',
+                                mse: { subject1: 0, subject2: 0, subject3: 0, subject4: 0 },
+                                ese: { subject1: 0, subject2: 0, subject3: 0, subject4: 0 }
+                            });
+                        }
+                    });
+            };
+
+            const calculateTotal = (mse, ese) => {
+                if (!mse || !ese) return 0;
+                const subjects = ['subject1', 'subject2', 'subject3', 'subject4'];
+                return subjects.reduce((total, subj) => 
+                    total + (mse[subj] * 0.3 + ese[subj] * 0.7), 0).toFixed(2);
+            };
+
+            return (
+                <div className="container">
+                    <h1>VIT Semester Results</h1>
+                    <button onClick={() => setShowForm(!showForm)}>
+                        {showForm ? 'Cancel' : 'Add Student'}
+                    </button>
+
+                    {showForm && (
+                        <div className="form">
+                            <h3>Add Student</h3>
+                            <input
+                                type="text"
+                                name="prn"
+                                placeholder="PRN"
+                                value={formData.prn}
+                                onChange={handleInputChange}
+                            />
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                            />
+                            <input
+                                type="text"
+                                name="branch"
+                                placeholder="Branch"
+                                value={formData.branch}
+                                onChange={handleInputChange}
+                            />
+                            <h4>MSE Marks</h4>
+                            <input
+                                type="number"
+                                placeholder="Subject 1"
+                                value={formData.mse.subject1}
+                                onChange={e => handleInputChange(e, 'mse', 'subject1')}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Subject 2"
+                                value={formData.mse.subject2}
+                                onChange={e => handleInputChange(e, 'mse', 'subject2')}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Subject 3"
+                                value={formData.mse.subject3}
+                                onChange={e => handleInputChange(e, 'mse', 'subject3')}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Subject 4"
+                                value={formData.mse.subject4}
+                                onChange={e => handleInputChange(e, 'mse', 'subject4')}
+                            />
+                            <h4>ESE Marks</h4>
+                            <input
+                                type="number"
+                                placeholder="Subject 1"
+                                value={formData.ese.subject1}
+                                onChange={e => handleInputChange(e, 'ese', 'subject1')}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Subject 2"
+                                value={formData.ese.subject2}
+                                onChange={e => handleInputChange(e, 'ese', 'subject2')}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Subject 3"
+                                value={formData.ese.subject3}
+                                onChange={e => handleInputChange(e, 'ese', 'subject3')}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Subject 4"
+                                value={formData.ese.subject4}
+                                onChange={e => handleInputChange(e, 'ese', 'subject4')}
+                            />
+                            <br />
+                            <button onClick={handleSubmit}>Submit</button>
+                        </div>
+                    )}
+
+                    <div className="results">
+                        <h3>Student Results</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>PRN</th>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>Total Marks</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {students.map(student => (
+                                    <tr key={student.prn}>
+                                        <td>{student.prn}</td>
+                                        <td>{student.name}</td>
+                                        <td>{student.branch}</td>
+                                        <td>
+                                            {marks[student.prn] ? 
+                                                calculateTotal(marks[student.prn].mse, marks[student.prn].ese) : 
+                                                'Loading...'}
+                                        </td>
+                                        <td>
+                                            <button onClick={() => fetchMarks(student.prn)}>
+                                                View Marks
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
