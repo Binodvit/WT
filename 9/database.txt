@@ -1,0 +1,26 @@
+CREATE DATABASE vit_results;
+USE vit_results;
+
+CREATE TABLE Students (
+    prn VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    branch VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE MSE (
+    prn VARCHAR(20),
+    subject1 FLOAT,
+    subject2 FLOAT,
+    subject3 FLOAT,
+    subject4 FLOAT,
+    FOREIGN KEY (prn) REFERENCES Students(prn)
+);
+
+CREATE TABLE ESE (
+    prn VARCHAR(20),
+    subject1 FLOAT,
+    subject2 FLOAT,
+    subject3 FLOAT,
+    subject4 FLOAT,
+    FOREIGN KEY (prn) REFERENCES Students(prn)
+);

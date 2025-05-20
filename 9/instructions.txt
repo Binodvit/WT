@@ -1,0 +1,14 @@
+download extensions 
+spring boot extention pack, dashboard, java extension pack
+
+ctrl+shift+p
+search spring initialzr - maven
+select version name etc select 3 dependancies-
+spring web, spring JPA, mysql driver
+
+src-> main -> java copy all the files from zip to this folder
+copy resources-> application.properties
+static->index.html copy
+copy pom.xml
+
+./mvnw.cmd spring-boot:run
